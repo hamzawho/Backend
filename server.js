@@ -6,13 +6,21 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const db = mysql.createPool({
-   host: "13.49.230.108",
-   user: 'root',
-   password: "hamza12345",
-   database: 'rockhairsaloon',
+const db = mysql.createConnection({
+  host: '13.49.230.108',
+  user: 'root', 
+  password: 'hamza12345', 
+  database: 'rockhairsaloon' 
+});
 
- });
+// Connect to the database
+db.connect((err) => {
+  if (err) {
+    console.error('Error connecting to database:', err);
+    return;
+  }
+  console.log('Connected to database!');
+});
 
 
 app.get('/', (req, res) => {
