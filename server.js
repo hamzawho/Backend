@@ -11,8 +11,7 @@ const db = mysql.createPool({
    user: 'root',
    password: "hamza12345",
    database: 'rockhairsaloon',
-   port: '8082'
-  
+
  });
 
 
