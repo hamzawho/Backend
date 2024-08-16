@@ -100,7 +100,7 @@ app.put('/update', (req, res) => {
      }
    });
  });
-app.listen(3306, () => {
+app.listen(8083, () => {
    console.log("LISTENING");
 });
 
