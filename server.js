@@ -91,7 +91,7 @@ app.put('/update', (req, res) => {
      }
    });
  });
-app.listen(8082, () => {
+app.listen(3306, () => {
    console.log("LISTENING");
 });
 
