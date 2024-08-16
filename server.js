@@ -13,14 +13,23 @@ const db = mysql.createConnection({
   database: 'rockhairsaloon' 
 });
 
-// Connect to the database
 db.connect((err) => {
   if (err) {
     console.error('Error connecting to database:', err);
     return;
   }
   console.log('Connected to database!');
+
+  // Add a simple check after connecting
+  db.query('SELECT 1', (err, result) => {
+    if (err) {
+      console.error('Error checking database connection:', err);
+    } else {
+      console.log('Database connection is active!');
+    }
+  });
 });
+
 
 
 app.get('/', (req, res) => {
