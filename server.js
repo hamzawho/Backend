@@ -24,7 +24,7 @@ db.connect((err) => {
 
 
 app.get('/', (req, res) => {
-   return res.json(" BACKENNND SIDE");
+   return res.json(" BACKEND SIDE");
 });
 
 app.get('/getusers', (req, res) => {
