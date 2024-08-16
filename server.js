@@ -6,15 +6,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const db = mysql.createConnection({
-   host: "localhost",
+const db = mysql.createPool({
+   host: "13.60.169.147",
    user: 'root',
-   database: 'rockhairsaloon'
-});
+   password: "hamza12345",
+   database: 'rockhairsaloon',
+   port: '8082'
+  
+ });
 
 
 app.get('/', (req, res) => {
-   return res.json(" BACKEND SIDE");
+   return res.json(" BACKENNND SIDE");
 });
 
 app.get('/getusers', (req, res) => {
