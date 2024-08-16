@@ -14,7 +14,7 @@ const db = mysql.createConnection({
 });
 
 app.get('/', (req, res) => {
-   return res.json(" BACKEND SIDE");
+   return res.json(" BACKEND SIDE IS LIVE ");
 });
 
 app.get('/getusers', (req, res) => {
