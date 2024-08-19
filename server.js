@@ -7,14 +7,23 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-  host: '13.49.230.108',
+  host: 'localhost',
   user: 'root', 
-  password: 'hamza12345', 
-  database: 'rockhairsaloon' 
+//   password: 'hamza12345', 
+  database: 'rockhairsaloon',
+});
+
+// Connect to the database
+db.connect( (err) => { // Notice the parentheses after 'connect'
+  if (err) {
+    console.error('Error connecting to database:', err);
+    return;
+  }
+  console.log('Connected to database!');
 });
 
 app.get('/', (req, res) => {
-   return res.json(" BACKEND SIDE IS LIVE ");
+   return res.json(" BACKENNNND SIDE");
 });
 
 app.get('/getusers', (req, res) => {
@@ -81,10 +90,6 @@ app.put('/update', (req, res) => {
      }
    });
  });
-app.listen(8082, () => {
+app.listen(5002, () => {
    console.log("LISTENING");
 });
-
-
-
-
