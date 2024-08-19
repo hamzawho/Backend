@@ -7,11 +7,12 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-  host: '192.168.1.16',
+  host: 'localhost',
   user: 'root', 
 //   password: 'hamza12345', 
   database: 'rockhairsaloon',
 });
+
 
 // Connect to the database
 db.connect( (err) => { // Notice the parentheses after 'connect'
@@ -90,6 +91,6 @@ app.put('/update', (req, res) => {
      }
    });
  });
-app.listen(8082, () => {
+app.listen(3306, () => {
    console.log("LISTENING");
 });
