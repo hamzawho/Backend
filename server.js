@@ -7,9 +7,9 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-  host: 'rockhairsaloon.cx2goocy64gl.eu-north-1.rds.amazonaws.com',
-  user: 'admin', 
-  password: 'u4m2nj10', 
+  host: 'localhost',
+  user: 'root', 
+  // password: 'u4m2nj10', 
   database: 'rockhairsaloon',
 });
 
@@ -91,6 +91,6 @@ app.put('/update', (req, res) => {
      }
    });
  });
-app.listen(3306, () => {
+app.listen(8082, () => {
    console.log("LISTENING");
 });
