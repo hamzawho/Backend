@@ -7,7 +7,7 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-  host: 'localhost',
+  host: '192.168.1.16',
   user: 'root', 
 //   password: 'hamza12345', 
   database: 'rockhairsaloon',
@@ -90,6 +90,6 @@ app.put('/update', (req, res) => {
      }
    });
  });
-app.listen(5002, () => {
+app.listen(8082, () => {
    console.log("LISTENING");
 });
