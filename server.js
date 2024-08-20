@@ -38,12 +38,12 @@ app.get('/getusers', (req, res) => {
          id: user.id,
          name: user.name,
          age: user.age,
-         Death: new Date(user.Death).toDateString() // Format the date here as needed
+         Death: new Date(user.Death).toLocaleDateString('en-GB') // Format the date as 'YYYY-MM-DD'
       }));
 
       return res.json(formattedData);
    });
-});
+});;
 
 app.post('/saveuser', (req, res) => {
    const body = req.body;
