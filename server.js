@@ -7,10 +7,11 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root', 
-  // password: 'u4m2nj10', 
-  database: 'rockhairsaloon',
+  host: 'rockhair-saloon.cx2goocy64gl.eu-north-1.rds.amazonaws.com',
+  user: 'admin', 
+  password: 'U4m2nj10', 
+  database: 'rockhair-saloon',
+  port: '3306',
 });
 
 
