@@ -32,7 +32,16 @@ app.get('/getusers', (req, res) => {
    const sql = 'SELECT * FROM `user` ORDER BY id DESC';
    db.query(sql, (err, data) => {
       if (err) return res.json(err);
-      return res.json(data);
+
+      // Format the date before sending it back
+      const formattedData = data.map(user => ({
+         id: user.id,
+         name: user.name,
+         age: user.age,
+         Death: new Date(user.Death).toDateString() // Format the date here as needed
+      }));
+
+      return res.json(formattedData);
    });
 });
 
