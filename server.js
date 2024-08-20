@@ -10,7 +10,7 @@ const db = mysql.createConnection({
   host: 'rockhair-saloon.cx2goocy64gl.eu-north-1.rds.amazonaws.com',
   user: 'admin', 
   password: 'U4m2nj10', 
-  database: 'rockhair-saloon',
+  database: ' ',
   port: '3306',
 });
 
@@ -92,6 +92,6 @@ app.put('/update', (req, res) => {
      }
    });
  });
-app.listen(8080, () => {
+app.listen(8082, () => {
    console.log("LISTENING");
 });
