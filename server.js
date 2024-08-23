@@ -28,30 +28,30 @@ app.get('/', (req, res) => {
    return res.json(" BACKENNNND SIDE");
 });
 
-// app.get('/getusers', (req, res) => {
-//    const sql = 'SELECT * FROM `user` ORDER BY id DESC';
-//    db.query(sql, (err, data) => {
-//       if (err) return res.json(err);
-
-//       // Format the date before sending it back
-//       const formattedData = data.map(user => ({
-//          id: user.id,
-//          name: user.name,
-//          age: user.age,
-//          Death: new Date(user.Death).toLocaleDateString('en-GB') // Format the date as 'YYYY-MM-DD'
-//       }));
-
-//       return res.json(formattedData);
-//    });
-// });;   
-
 app.get('/getusers', (req, res) => {
    const sql = 'SELECT * FROM `user` ORDER BY id DESC';
    db.query(sql, (err, data) => {
       if (err) return res.json(err);
-      return res.json(data);
+
+      // Format the date before sending it back
+      const formattedData = data.map(user => ({
+         id: user.id,
+         name: user.name,
+         age: user.age,
+         Death: new Date(user.Death).toISOString().split('T')[0] // Extracting only the date part
+      }));
+
+      return res.json(formattedData);
    });
-});
+}); 
+
+// app.get('/getusers', (req, res) => {
+//    const sql = 'SELECT * FROM `user` ORDER BY id DESC';
+//    db.query(sql, (err, data) => {
+//       if (err) return res.json(err);
+//       return res.json(data);
+//    });
+// });
 
 
 app.post('/saveuser', (req, res) => {
