@@ -15,8 +15,7 @@ const db = mysql.createConnection({
 });
 
 
-// Connect to the database
-db.connect( (err) => { // Notice the parentheses after 'connect'
+db.connect( (err) => { 
   if (err) {
     console.error('Error connecting to database:', err);
     return;
@@ -38,20 +37,12 @@ app.get('/getusers', (req, res) => {
          id: user.id,
          name: user.name,
          age: user.age,
-         Death: new Date(user.Death).toISOString().split('T')[0] // Extracting only the date part
+         Death: new Date(user.Death).toISOString().split('T')[0] 
       }));
 
       return res.json(formattedData);
    });
 }); 
-
-// app.get('/getusers', (req, res) => {
-//    const sql = 'SELECT * FROM `user` ORDER BY id DESC';
-//    db.query(sql, (err, data) => {
-//       if (err) return res.json(err);
-//       return res.json(data);
-//    });
-// });
 
 
 app.post('/saveuser', (req, res) => {
@@ -111,29 +102,6 @@ app.put('/update', (req, res) => {
    });
  });
 
-// app.put('/update', (req, res) => {
-//   const id = req.query.id;
-//   const body = req.body;
-  
-//   if (!id || !body.name || !body.age || !body.Death) {
-//     return res.status(400).json({ error: 'Invalid input data' });
-//   }
-
-//   const sql = `UPDATE user SET name='${body.name}', age=${body.age}, Death='${body.Death}' WHERE id=${id}`;
-  
-//   db.query(sql, (err, result) => {
-//     if (err) {
-//       console.log(err);
-//       return res.status(500).json({ error: 'Internal server error' });
-//     }
-
-//     if (result.affectedRows > 0) {
-//       res.status(200).json({ status: 'updated' });
-//     } else {
-//       res.status(404).json({ error: 'Record not found' });
-//     }
-//   });
-// });
 app.listen(8083, () => {
    console.log("LISTENING");
 });
