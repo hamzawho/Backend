@@ -81,26 +81,50 @@ app.delete('/delete', (req, res) => {
    });
 });
 
+// app.put('/update', (req, res) => {
+//    const id = req.query.id;
+//    const body = req.body;
+ 
+//    const sql = `UPDATE user SET name=?, age=?, Death=? WHERE id=?`;
+//    const values = [body.name, body.age, body.Death, id];
+ 
+//    db.query(sql, values, (err, result) => {
+//      if (err) {
+//        console.log(err);
+//        res.status(500).json({ status: 'error' });
+//      } else {
+//        if (result.affectedRows > 0) {
+//          res.status(200).json({ status: 'updated' });
+//        } else {
+//          res.status(404).json({ status: 'not found' });
+//        }
+//      }
+//    });
+//  });
+
 app.put('/update', (req, res) => {
-   const id = req.query.id;
-   const body = req.body;
- 
-   const sql = `UPDATE user SET name=?, age=?, Death=? WHERE id=?`;
-   const values = [body.name, body.age, body.Death, id];
- 
-   db.query(sql, values, (err, result) => {
-     if (err) {
-       console.log(err);
-       res.status(500).json({ status: 'error' });
-     } else {
-       if (result.affectedRows > 0) {
-         res.status(200).json({ status: 'updated' });
-       } else {
-         res.status(404).json({ status: 'not found' });
-       }
-     }
-   });
- });
+  const id = req.query.id;
+  const body = req.body;
+  
+  if (!id || !body.name || !body.age || !body.Death) {
+    return res.status(400).json({ error: 'Invalid input data' });
+  }
+
+  const sql = `UPDATE user SET name='${body.name}', age=${body.age}, Death='${body.Death}' WHERE id=${id}`;
+  
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    if (result.affectedRows > 0) {
+      res.status(200).json({ status: 'updated' });
+    } else {
+      res.status(404).json({ error: 'Record not found' });
+    }
+  });
+});
 app.listen(8083, () => {
    console.log("LISTENING");
 });
