@@ -5,8 +5,13 @@ const cors = require('cors');
 const app = express();
 // app.use(cors());
 
+// app.use(cors({
+//   origin: 'http://thedemoapp.online/'
+// }));
 app.use(cors({
-  origin: 'http://thedemoapp.online/'
+  origin: 'http://yourdomain.com', // Set your domain here
+  methods: 'GET,POST,PUT,DELETE', // Allow the necessary methods
+  allowedHeaders: 'Content-Type',
 }));
 
 app.use(express.json());
