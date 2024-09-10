@@ -3,10 +3,12 @@ const mysql = require('mysql');
 const cors = require('cors');
 
 const app = express();
-// app.use(cors());
-app.use(cors({ origin: '*' }));
+app.use(cors());
+// app.use(cors({ origin: '*' }));
 
-app.use(express.json());
+app.use(express.static('dist));
+
+// app.use(express.json());
 
 const db = mysql.createConnection({
   // host: '13.60.192.9',
