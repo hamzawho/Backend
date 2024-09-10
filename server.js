@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
    return res.json(" BACKENNNND SIDE");
 });
 
-app.get('/getusers', (req, res) => {
+app.get('/api/getusers', (req, res) => {
    const sql = 'SELECT * FROM `user` ORDER BY id DESC';
    db.query(sql, (err, data) => {
       if (err) return res.json(err);
