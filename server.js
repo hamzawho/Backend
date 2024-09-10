@@ -49,7 +49,7 @@ app.get('/api/getusers', (req, res) => {
 }); 
 
 
-app.post('/saveuser', (req, res) => {
+app.post('/api/saveuser', (req, res) => {
    const body = req.body;
    const sql = `INSERT INTO user (name, age, Death) VALUES (?, ?, ?)`;
    const values = [body.name, body.age, body.Death];
@@ -65,7 +65,7 @@ app.post('/saveuser', (req, res) => {
    });
 });
 
-app.delete('/delete', (req, res) => {
+app.delete('/api/delete', (req, res) => {
    const id = req.query.id;
    const sql = 'DELETE FROM user WHERE id = ?';
    const values = [id];
@@ -85,7 +85,7 @@ app.delete('/delete', (req, res) => {
    });
 });
 
-app.put('/update', (req, res) => {
+app.put('/api/update', (req, res) => {
    const id = req.query.id;
    const body = req.body;
  
