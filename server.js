@@ -3,15 +3,8 @@ const mysql = require('mysql');
 const cors = require('cors');
 
 const app = express();
-// app.use(cors());
-
-// app.use(cors({
-//   origin: 'http://thedemoapp.online/'
-// }));
 app.use(cors({
-  origin: 'http://thedemoapp.online/', // Set your domain here
-  methods: 'GET,POST,PUT,DELETE', // Allow the necessary methods
-  allowedHeaders: 'Content-Type',
+  origin: 'http://thedemoapp.online' // Replace with your domain
 }));
 
 app.use(express.json());
