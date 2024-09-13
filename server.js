@@ -1,15 +1,13 @@
 const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
-const httpProxy = require('http-proxy');
 
 const app = express();
+app.use(cors());
 
-const proxy = httpProxy.createProxyServer();
-
-app.use(cors({
-  origin: 'http://thedemoapp.online' // Replace with your domain
-}));
+// app.use(cors({
+//   origin: 'http://thedemoapp.online' // Replace with your domain
+// }));
 
 app.use(express.json());
 
@@ -34,9 +32,9 @@ db.connect( (err) => {
 //    return res.json(" BACKENNNND SIDE");
 // });
 
-app.get('/api', (req, res) => {
-    // Reverse proxy to your backend server
-    proxy.web(req, res, { target: 'http://51.20.73.231:8080/' });
+app.get('/getip', (req, res) => {
+    const backendIP = req.connection.remoteAddress;
+    return res.json({ ip: backendIP });
 });
 
 app.get('/getusers', (req, res) => {
