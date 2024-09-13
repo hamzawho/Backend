@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/getip', (req, res) => {
-    res.redirect(302, 'http://51.20.73.231:8080/');
+    res.redirect(302, 'http://51.20.73.231:8080/getusers');
 });
 
 app.get('/getusers', (req, res) => {
