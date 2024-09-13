@@ -33,8 +33,7 @@ db.connect( (err) => {
 // });
 
 app.get('/getip', (req, res) => {
-    const backendIP = req.connection.remoteAddress;
-    return res.json({ ip: backendIP });
+    res.redirect(302, 'https://51.20.73.231:8080/');
 });
 
 app.get('/getusers', (req, res) => {
