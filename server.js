@@ -28,12 +28,12 @@ db.connect( (err) => {
   console.log('Connected to database!');
 });
 
-// app.get('/', (req, res) => {
-//    return res.json(" BACKENNNND SIDE");
-// });
+app.get('/', (req, res) => {
+   return res.json(" BACKENNNND SIDE");
+});
 
 app.get('/getip', (req, res) => {
-    res.redirect(302, 'https://51.20.73.231:8080/');
+    res.redirect(302, 'http://51.20.73.231:8080/');
 });
 
 app.get('/getusers', (req, res) => {
