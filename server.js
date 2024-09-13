@@ -32,13 +32,10 @@ app.get('/', (req, res) => {
    return res.json(" BACKENNNND SIDE");
 });
 
-// app.get('/getip', (req, res) => {
-//     res.redirect(302, 'http://51.20.73.231:8080/getusers');
-// });
-
 app.get('/getip', (req, res) => {
-    res.send('51.20.73.231:8080'); // Example IP address and port as plain text
+    res.redirect(302, 'http://51.20.73.231:8080/getusers');
 });
+
 
 app.get('/getusers', (req, res) => {
    const sql = 'SELECT * FROM `user` ORDER BY id DESC';
