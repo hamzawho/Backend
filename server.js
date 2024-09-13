@@ -32,8 +32,12 @@ app.get('/', (req, res) => {
    return res.json(" BACKENNNND SIDE");
 });
 
+// app.get('/getip', (req, res) => {
+//     res.redirect(302, 'http://51.20.73.231:8080/getusers');
+// });
+
 app.get('/getip', (req, res) => {
-    res.redirect(302, 'http://51.20.73.231:8080/getusers');
+    res.send('51.20.73.231:8080'); // Example IP address and port as plain text
 });
 
 app.get('/getusers', (req, res) => {
