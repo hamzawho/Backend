@@ -1,7 +1,9 @@
 const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
+app.use('/api', createProxyMiddleware({ target: 'http://51.20.73.231:8080', changeOrigin: true }));
 const app = express();
 app.use(cors({
   origin: 'http://thedemoapp.online' // Replace with your domain
