@@ -6,7 +6,7 @@ const app = express();
 // app.use(cors());
 
 app.use(cors({
-  origin: 'http://thedemoapp.online/'
+  origin: 'http://thedemoapp.online'
 }));
 
 app.use(express.json());
