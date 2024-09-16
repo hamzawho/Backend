@@ -5,10 +5,6 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 
-// app.use(cors({
-//   origin: 'http://thedemoapp.online' // Replace with your domain
-// }));
-
 app.use(express.json());
 
 const db = mysql.createConnection({
@@ -31,11 +27,6 @@ db.connect( (err) => {
 app.get('/', (req, res) => {
    return res.json(" BACKENNNND SIDE");
 });
-
-// app.get('/getip', (req, res) => {
-//     res.redirect(302, 'http://51.20.73.231:8080/getusers');
-// });
-
 
 app.get('/getusers', (req, res) => {
    const sql = 'SELECT * FROM `user` ORDER BY id DESC';
