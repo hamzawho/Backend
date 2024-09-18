@@ -4,8 +4,12 @@ const mysql = require('mysql');
 const cors = require('cors');
 
 const app = express();
+// app.use(cors({
+//   origin: 'http://thedemoapp.online'
+// }));
+
 app.use(cors({
-  origin: 'http://thedemoapp.online'
+  origin: '*'
 }));
 
 app.use(express.json());
