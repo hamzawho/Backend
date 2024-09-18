@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 
 
 // User signup endpoint
-app.post('/api/signup', async (req, res) => {
+app.post('/signup', async (req, res) => {
     const { name, email, password } = req.body;
 
     // Check if email already exists
