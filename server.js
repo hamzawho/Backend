@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 const mysql = require('mysql');
 const cors = require('cors');
 
@@ -26,8 +27,35 @@ db.connect( (err) => {
   console.log('Connected to database!');
 });
 
+
 app.get('/', (req, res) => {
    return res.json(" BACKENNNND SIDE");
+});
+
+
+// User signup endpoint
+app.post('/api/signup', async (req, res) => {
+    const { name, email, password } = req.body;
+
+    // Check if email already exists
+    const queryEmailExists = `SELECT * FROM users WHERE email = ?`;
+    db.query(queryEmailExists, [email], async (err, results) => {
+        if (results.length > 0) {
+            return res.status(400).json({ message: 'Email already exists' });
+        }
+
+        // Hash password before storing it
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Insert new user into the database
+        const query = `INSERT INTO users (name, email, password) VALUES (?, ?, ?)`;
+        db.query(query, [name, email, hashedPassword], (err, result) => {
+            if (err) {
+                return res.status(500).json({ message: 'Database error' });
+            }
+            res.status(201).json({ message: 'User created successfully' });
+        });
+    });
 });
 
 app.get('/getusers', (req, res) => {
