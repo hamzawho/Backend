@@ -245,7 +245,7 @@ app.get('/getusers', (req, res) => {
     return res.status(400).json({ status: 'error', message: 'Email is required' });
   }
 
-  const query = 'SELECT * FROM users_data WHERE email = ?';
+  const query = 'SELECT * FROM users WHERE email = ?';
   db.query(query, [email], (err, results) => {
     if (err) {
       console.error('Error fetching data:', err);
@@ -267,7 +267,7 @@ app.post('/saveuser', (req, res) => {
   }
 
   // Insert data into the database
-  const query = 'INSERT INTO users_data (name, age, Death, email) VALUES (?, ?, ?, ?)';
+  const query = 'INSERT INTO users (name, age, Death, email) VALUES (?, ?, ?, ?)';
   db.query(query, [name, age, Death, email], (err, result) => {
     if (err) {
       console.error('Error inserting data:', err);
