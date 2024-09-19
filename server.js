@@ -257,20 +257,25 @@ app.get('/getusers', (req, res) => {
   });
 });
 
-// Insert new user data
-app.post('/saveuser', (req, res) => {
-  const email = req.body.email; // Get email from request body or session
-  const body = req.body;
+app.post('/saveuser', authenticateJWT, (req, res) => {
+  const { name, age, Death } = req.body;
+  const userEmail = req.user.email; // Assuming the email is stored in the JWT payload
+
+  // Validate input
+  if (!name || !age || !Death) {
+    return res.status(400).json({ status: 'error', message: 'All fields are required' });
+  }
+
+  // Insert user data
   const sql = `INSERT INTO user (name, age, Death, user_email) VALUES (?, ?, ?, ?)`;
-  const values = [body.name, body.age, body.Death, email];
+  const values = [name, age, Death, userEmail];
 
   db.query(sql, values, (err, results) => {
     if (err) {
-      console.log(err);
-      res.status(500).json({ status: 'error' });
-    } else {
-      res.status(200).json({ status: 'inserted' });
+      console.error('Database error:', err);
+      return res.status(500).json({ status: 'error', message: 'Database error' });
     }
+    res.status(200).json({ status: 'inserted' });
   });
 });
 
