@@ -238,46 +238,53 @@ app.post('/signin', (req, res) => {
   });
 });
 
-// Fetch user-specific data
 app.get('/getusers', (req, res) => {
-  const email = req.query.email; // Get email from request query or session
-  const sql = 'SELECT * FROM `user` WHERE `user_email` = ? ORDER BY id DESC';
-  db.query(sql, [email], (err, data) => {
-    if (err) return res.json(err);
+    const email = req.query.email;
 
-    // Format the date before sending it back
-    const formattedData = data.map(user => ({
-      id: user.id,
-      name: user.name,
-      age: user.age,
-      Death: new Date(user.Death).toISOString().split('T')[0]
-    }));
-
-    return res.json(formattedData);
-  });
-});
-
-app.post('/saveuser', authenticateJWT, (req, res) => {
-  const { name, age, Death } = req.body;
-  const userEmail = req.user.email; // Assuming the email is stored in the JWT payload
-
-  // Validate input
-  if (!name || !age || !Death) {
-    return res.status(400).json({ status: 'error', message: 'All fields are required' });
-  }
-
-  // Insert user data
-  const sql = `INSERT INTO user (name, age, Death, user_email) VALUES (?, ?, ?, ?)`;
-  const values = [name, age, Death, userEmail];
-
-  db.query(sql, values, (err, results) => {
-    if (err) {
-      console.error('Database error:', err);
-      return res.status(500).json({ status: 'error', message: 'Database error' });
+    if (!email) {
+        return res.status(400).json({ status: 'error', message: 'Email is required' });
     }
-    res.status(200).json({ status: 'inserted' });
-  });
+
+    const sql = 'SELECT * FROM `user` WHERE user_email = ? ORDER BY id DESC';
+    db.query(sql, [email], (err, data) => {
+        if (err) {
+            return res.status(500).json({ status: 'error', message: 'Database error' });
+        }
+
+        // Format the date before sending it back
+        const formattedData = data.map(user => ({
+            id: user.id,
+            name: user.name,
+            age: user.age,
+            Death: new Date(user.Death).toISOString().split('T')[0]
+        }));
+
+        return res.json(formattedData);
+    });
 });
+
+
+app.post('/saveuser', (req, res) => {
+    const { name, age, Death, email } = req.body;
+
+    // Validate input
+    if (!name || !age || !Death || !email) {
+        return res.status(400).json({ status: 'error', message: 'All fields are required' });
+    }
+
+    // Insert user data
+    const sql = `INSERT INTO user (name, age, Death, user_email) VALUES (?, ?, ?, ?)`;
+    const values = [name, age, Death, email];
+
+    db.query(sql, values, (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ status: 'error', message: 'Database error' });
+        }
+        res.status(200).json({ status: 'inserted' });
+    });
+});
+
 
 // Update user data
 app.put('/update', (req, res) => {
