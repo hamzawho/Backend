@@ -63,38 +63,39 @@ app.post('/signup', async (req, res) => {
 });
 
 app.get('/getusers', (req, res) => {
-   const sql = 'SELECT * FROM `user` ORDER BY id DESC';
-   db.query(sql, (err, data) => {
-      if (err) return res.json(err);
+    const userId = req.user.id; // Assuming `req.user` is populated with user details after authentication
+    const sql = 'SELECT * FROM user WHERE user_id = ? ORDER BY id DESC';
+    db.query(sql, [userId], (err, data) => {
+        if (err) return res.json(err);
 
-      // Format the date before sending it back
-      const formattedData = data.map(user => ({
-         id: user.id,
-         name: user.name,
-         age: user.age,
-         Death: new Date(user.Death).toISOString().split('T')[0] 
-      }));
+        const formattedData = data.map(user => ({
+            id: user.id,
+            name: user.name,
+            age: user.age,
+            Death: new Date(user.Death).toISOString().split('T')[0]
+        }));
 
-      return res.json(formattedData);
-   });
-}); 
+        return res.json(formattedData);
+    });
+});
 
 
 app.post('/saveuser', (req, res) => {
-   const body = req.body;
-   const sql = `INSERT INTO user (name, age, Death) VALUES (?, ?, ?)`;
-   const values = [body.name, body.age, body.Death];
+    const body = req.body;
+    const userId = req.user.id; // Assuming `req.user` is populated with user details after authentication
+    const sql = `INSERT INTO user (name, age, Death, user_id) VALUES (?, ?, ?, ?)`;
+    const values = [body.name, body.age, body.Death, userId];
 
-   db.query(sql, values, (err, results) => {
-      if (err) {
-         console.log(err);
-         res.status(500).json({ status: 'error' });
-      } 
-      else {
-         res.status(200).json({ status: 'inserted' });
-      }
-   });
+    db.query(sql, values, (err, results) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({ status: 'error' });
+        } else {
+            res.status(200).json({ status: 'inserted' });
+        }
+    });
 });
+
 
 app.delete('/delete', (req, res) => {
    const id = req.query.id;
