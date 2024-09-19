@@ -178,6 +178,22 @@ db.connect((err) => {
 
 const JWT_SECRET = 'your_jwt_secret'; // Replace with a secure secret key
 
+
+// Middleware function to authenticate JWT
+function authenticateJWT(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (token == null) return res.sendStatus(401); // No token provided
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403); // Invalid token
+
+    req.user = user;
+    next();
+  });
+}
+
 app.get('/', (req, res) => {
   return res.json("BACKEND SIDE");
 });
