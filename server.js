@@ -255,16 +255,20 @@ app.post('/signin', (req, res) => {
 });
 
 app.get('/userdata', authenticateJWT, (req, res) => {
-  const userId = req.user.id; // Extracted from the JWT token
+  const email = req.user.email; // Get email from JWT
 
-  const query = 'SELECT * FROM user_data WHERE user_id = ?';
-  db.query(query, [userId], (err, results) => {
+  // Fetch data from 'user_data' table
+  const query = 'SELECT * FROM user_data WHERE email = ?';
+  db.query(query, [email], (err, results) => {
     if (err) {
-      return res.status(500).json({ message: 'Error fetching data' });
+      console.error('Error fetching data:', err);
+      return res.status(500).json({ message: 'Failed to fetch data' });
     }
-    res.json(results);
+    // Return an empty array if no data is found
+    res.json(results.length > 0 ? results : []);
   });
 });
+
 
 
 app.get('/getusers', (req, res) => {
