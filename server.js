@@ -176,7 +176,7 @@ db.connect((err) => {
   console.log('Connected to database!');
 });
 
-// const JWT_SECRET = 'your_jwt_secret'; // Replace with a secure secret key
+const JWT_SECRET = 'your_jwt_secret'; // Replace with a secure secret key
 
 app.get('/', (req, res) => {
   return res.json("BACKEND SIDE");
