@@ -239,51 +239,45 @@ app.post('/signin', (req, res) => {
 });
 
 app.get('/getusers', (req, res) => {
-    const email = req.query.email;
+  const email = req.query.email;
 
-    if (!email) {
-        return res.status(400).json({ status: 'error', message: 'Email is required' });
+  if (!email) {
+    return res.status(400).json({ status: 'error', message: 'Email is required' });
+  }
+
+  const query = 'SELECT * FROM users_data WHERE email = ?';
+  db.query(query, [email], (err, results) => {
+    if (err) {
+      console.error('Error fetching data:', err);
+      return res.status(500).json({ status: 'error', message: 'Error fetching data' });
     }
 
-    const sql = 'SELECT * FROM `user` WHERE user_email = ? ORDER BY id DESC';
-    db.query(sql, [email], (err, data) => {
-        if (err) {
-            return res.status(500).json({ status: 'error', message: 'Database error' });
-        }
-
-        // Format the date before sending it back
-        const formattedData = data.map(user => ({
-            id: user.id,
-            name: user.name,
-            age: user.age,
-            Death: new Date(user.Death).toISOString().split('T')[0]
-        }));
-
-        return res.json(formattedData);
-    });
+    res.json(results);
+  });
 });
+
 
 
 app.post('/saveuser', (req, res) => {
-    const { name, age, Death, email } = req.body;
+  const { name, age, Death, email } = req.body;
 
-    // Validate input
-    if (!name || !age || !Death || !email) {
-        return res.status(400).json({ status: 'error', message: 'All fields are required' });
+  // Check if all required data is available
+  if (!name || !age || !Death || !email) {
+    return res.status(400).json({ status: 'error', message: 'Missing data' });
+  }
+
+  // Insert data into the database
+  const query = 'INSERT INTO users_data (name, age, Death, email) VALUES (?, ?, ?, ?)';
+  db.query(query, [name, age, Death, email], (err, result) => {
+    if (err) {
+      console.error('Error inserting data:', err);
+      return res.status(500).json({ status: 'error', message: 'Error saving data' });
     }
 
-    // Insert user data
-    const sql = `INSERT INTO user (name, age, Death, user_email) VALUES (?, ?, ?, ?)`;
-    const values = [name, age, Death, email];
-
-    db.query(sql, values, (err, results) => {
-        if (err) {
-            console.error('Database error:', err);
-            return res.status(500).json({ status: 'error', message: 'Database error' });
-        }
-        res.status(200).json({ status: 'inserted' });
-    });
+    res.json({ status: 'inserted', message: 'Data saved successfully' });
+  });
 });
+
 
 
 // Update user data
