@@ -152,19 +152,13 @@ const bcrypt = require('bcrypt');
 const mysql = require('mysql');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
-const app = express();
-const PORT = 8083;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 
-require('dotenv').config();
-
-
-// Middleware
-app.use(cors({
-  origin: '*'
-}));
+const app = express();
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 
 // Database Connection
