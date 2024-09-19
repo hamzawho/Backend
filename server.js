@@ -176,7 +176,7 @@ db.connect((err) => {
   console.log('Connected to database!');
 });
 
-const JWT_SECRET = 'your_jwt_secret'; // Replace with a secure secret key
+// const JWT_SECRET = 'your_jwt_secret'; // Replace with a secure secret key
 
 app.get('/', (req, res) => {
   return res.json("BACKEND SIDE");
@@ -238,6 +238,19 @@ app.post('/signin', (req, res) => {
   });
 });
 
+app.get('/userdata', authenticateJWT, (req, res) => {
+  const userId = req.user.id; // Extracted from the JWT token
+
+  const query = 'SELECT * FROM user_data WHERE user_id = ?';
+  db.query(query, [userId], (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error fetching data' });
+    }
+    res.json(results);
+  });
+});
+
+
 app.get('/getusers', (req, res) => {
   const email = req.query.email;
 
@@ -258,23 +271,22 @@ app.get('/getusers', (req, res) => {
 
 
 
-app.post('/saveuser', (req, res) => {
-  const { name, age, Death, email } = req.body;
 
-  // Check if all required data is available
-  if (!name || !age || !Death || !email) {
-    return res.status(400).json({ status: 'error', message: 'Missing data' });
-  }
+app.post('/saveuser', authenticateJWT, (req, res) => {
+  const userId = req.user.id; // Extracted from the JWT token
+  const { name, age, deathDate } = req.body;
 
-  // Insert data into the database
-  const query = 'INSERT INTO users (name, age, Death, email) VALUES (?, ?, ?, ?)';
-  db.query(query, [name, age, Death, email], (err, result) => {
+  // Insert or update data
+  const query = `
+    INSERT INTO user_data (user_id, name, age, death_date)
+    VALUES (?, ?, ?, ?)
+    ON DUPLICATE KEY UPDATE name = VALUES(name), age = VALUES(age), death_date = VALUES(death_date)
+  `;
+  db.query(query, [userId, name, age, deathDate], (err, results) => {
     if (err) {
-      console.error('Error inserting data:', err);
-      return res.status(500).json({ status: 'error', message: 'Error saving data' });
+      return res.status(500).json({ message: 'Error saving data' });
     }
-
-    res.json({ status: 'inserted', message: 'Data saved successfully' });
+    res.json({ message: 'Data saved successfully' });
   });
 });
 
