@@ -16,7 +16,6 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Database Connection
 const db = mysql.createConnection({
   // host: 'localhost', 
   user: 'root',
