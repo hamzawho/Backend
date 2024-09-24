@@ -45,16 +45,15 @@ const authenticate = (req, res, next) => {
   jwt.verify(token, JWT_SECRET, (err, decoded) => {
     if (err) return res.status(401).json({ message: 'Invalid token' });
 
-    req.userId = decoded.id; // Attach user ID to request
+    req.userId = decoded.id; 
     next();
   });
 };
 
-// User Signup Endpoint
 app.post('/signup', async (req, res) => {
   const { name, email, password } = req.body;
 
-  // Check if email already exists
+  // if email already exists
   const queryEmailExists = 'SELECT * FROM users WHERE email = ?';
   db.query(queryEmailExists, [email], async (err, results) => {
     if (results.length > 0) {
@@ -110,7 +109,6 @@ app.post('/saveuser', authenticate, (req, res) => {
   });
 });
 
-// Get User Data Endpoint
 app.get('/getusers', authenticate, (req, res) => {
   const userId = req.userId;
 
@@ -131,7 +129,6 @@ app.get('/getusers', authenticate, (req, res) => {
   });
 });
 
-// Update User Data Endpoint
 app.put('/update', authenticate, (req, res) => {
   const id = req.query.id;
   const { name, age, Death } = req.body;
@@ -151,7 +148,6 @@ app.put('/update', authenticate, (req, res) => {
   });
 });
 
-// Delete User Data Endpoint
 app.delete('/delete', authenticate, (req, res) => {
   const id = req.query.id;
 
@@ -168,7 +164,6 @@ app.delete('/delete', authenticate, (req, res) => {
   });
 });
 
-// Start Server
 app.listen(8083, () => {
   console.log(`Server is running `);
 });
