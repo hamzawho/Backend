@@ -10,10 +10,22 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 
 const app = express();
-// app.use(cors({ origin: '*' }));
-app.use(cors({
-  origin: 'http://thedemoapp.online'
-}));
+// // app.use(cors({ origin: '*' }));
+// app.use(cors({
+//   origin: 'http://thedemoapp.online'
+// }));
+
+const corsOptions = {
+  origin: 'http://thedemoapp.online',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
+
+// Enable CORS
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Enable preflight for all routes
+
 app.use(express.json());
 
 const db = mysql.createConnection({
